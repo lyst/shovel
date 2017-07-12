@@ -1,0 +1,12 @@
+*.egg-info
+*.py[co]
+*.sublime-workspace
+*~
+.*
+\#*#
+coverage.xml
+!.circle
+!.editorconfig
+!.gitignore
+!.coveragerc
+*htmlcov

@@ -1,0 +1,11 @@
+codecov==1.6.2
+coverage==4.2
+devpi==2.2.0
+devpi-client==2.3.0
+flake8==2.3.0
+mock
+moto
+pytest
+tox==2.1.1
+wheel==0.24.0
+-e .
