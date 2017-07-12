@@ -23,6 +23,11 @@ python setup.py install
 
 (For development, `python setup.py develop` works.)
 
+If you want to install directly from git, use:
+```bash
+pip install git+https://github.com/lyst/shovel.git#egg=shovel
+```
+
 Shovel reads its config from the environment. As a minimum, you need the following environment variables defines:
 - AWS_ACCESS_KEY_ID - for boto
 - AWS_SECRET_ACCESS_KEY - for boto 
