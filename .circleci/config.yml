@@ -44,5 +44,6 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
+            ./.circle/lint-all.sh
             ./.circleci/py_tests.sh
 
