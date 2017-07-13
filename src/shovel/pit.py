@@ -25,10 +25,14 @@ class Pit(object):
         self.bucket = bucket
         self.root = root
 
-    def bury(self, project, name, version, working_path, force=False):
+    def bury(self, project, name, version, working_path, force=False, ignore_exists=False):
         """Upload the contents of the target path to the pit."""
+        if force and ignore_exists:
+            raise ValueError("force and ignore_exists cannot both be True")
         _version_parser(version)
         if not force and self._list_contents(project, name, version):
+            if ignore_exists:
+                return
             raise exceptions.VersionExists
 
         s3.put_objects(working_path, self.bucket, self.root, project, name, version)
