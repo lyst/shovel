@@ -8,10 +8,10 @@ DEFAULT_BUCKET = os.environ.get('SHOVEL_DEFAULT_BUCKET')
 DEFAULT_ROOT = os.environ.get('SHOVEL_DEFAULT_ROOT') or 'bottomless-pit'
 
 
-def bury(project, name, version, local_path, force=False):
+def bury(project, name, version, local_path, force=False, ignore_exists=False):
     """Upload the contents of the target path to the pit."""
     pit = get_default_pit()
-    pit.bury(project, name, version, local_path, force)
+    pit.bury(project, name, version, local_path, force, ignore_exists)
 
 
 def dig(project, name, version, local_path):
