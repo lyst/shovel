@@ -8,27 +8,25 @@ DEFAULT_BUCKET = os.environ.get('SHOVEL_DEFAULT_BUCKET')
 DEFAULT_ROOT = os.environ.get('SHOVEL_DEFAULT_ROOT') or 'bottomless-pit'
 
 
-def bury(project, name, version, local_path):
+def bury(project, name, version, local_path, force=False):
+    """Upload the contents of the target path to the pit."""
     pit = get_default_pit()
-    pit.bury(project, name, version, local_path)
+    pit.bury(project, name, version, local_path, force)
 
 
 def dig(project, name, version, local_path):
+    """Download the contents of the target dataset from the pit."""
     pit = get_default_pit()
     pit.dig(project, name, version, local_path)
 
 
-def peek(project, name):
+def peek(project=None, name=None, version=None, *, local_path=None):
     pit = get_default_pit()
-    versions = pit.list_versions(project, name)
-    return {
-        version: pit.list_contents(project, name, version)
-        for version in versions
-    }
+    return pit.peek(project, name, version, local_path=local_path)
 
 
 def get_default_config():
-    return Config(bucket=DEFAULT_BUCKET, root=DEFAULT_BUCKET)
+    return Config(bucket=DEFAULT_BUCKET, root=DEFAULT_ROOT)
 
 
 def get_default_pit():
