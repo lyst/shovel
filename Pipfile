@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+codecov = "*"
+coverage = "*"
+flake8 = "*"
+mock = "*"
+moto = "*"
+pytest = "*"
+tox = "*"
+
+[packages]
+shovel = {editable = true,path = "."}
+
+[requires]
+python_version = "3.7"
