@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 
-from shovel import exceptions
-
 
 def list_local(local_path):
     n = len(local_path)

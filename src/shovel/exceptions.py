@@ -27,10 +27,10 @@ class OutOfSync(ValueError):
         only_local = sorted(set(local_files) - set(remote_files))
         only_remote = sorted(set(remote_files) - set(local_files))
         local_and_remote = sorted(set(remote_files) & set(local_files))
-        msg = dedent("""
+        msg = dedent(f"""
             Local and remote not in sync.
-            Only local: {l}
-            Only remote: {r}
-            In both: {b}
-            """).strip().format(l=only_local, r=only_remote, b=local_and_remote)
+            Only local: {only_local}
+            Only remote: {only_remote}
+            In both: {local_and_remote}
+            """).strip()
         super().__init__(msg)
