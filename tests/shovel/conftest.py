@@ -33,4 +33,10 @@ def hello_data(tmpdir):
     hello.write("Hello World")
     with open(hello.strpath, 'r') as f:
         assert f.read() == "Hello World"
+
+    hi = data_dir.join('hi.txt')
+    hi.write("Hi World")
+    with open(hi.strpath, 'r') as f:
+        assert f.read() == "Hi World"
+
     yield data_dir
