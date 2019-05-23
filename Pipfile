@@ -4,13 +4,17 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-codecov = "*"
-coverage = "*"
+bandit = "*"
+eradicate = "*"
 flake8 = "*"
+flake8-docstrings = "*"
+flake8-import-order = "*"
+flake8-print = "*"
 mock = "*"
 moto = "*"
 pytest = "*"
-tox = "*"
+pytest-cov = "*"
+safety = "*"
 
 [packages]
 shovel = {editable = true,path = "."}

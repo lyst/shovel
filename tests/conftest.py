@@ -7,7 +7,7 @@ import pytest
 @pytest.fixture(autouse=True)
 def force_no_aws_creds():
     """
-    boto is mocked by moto, so nothing talks to S3, but if this goes wrong, it is preferable if
+    Ensure boto is mocked by moto, so nothing talks to S3, but if this goes wrong, it is preferable if
     the test framework doesn't start writing real data. This will enforce that.
     """
     os.environ['SHOVEL_DEFAULT_BUCKET'] = 'test_bucket'

@@ -56,7 +56,8 @@ def download_tree(bucket, prefix, local_path):
     keys = [i['Key'] for i in items['Contents']]
 
     for key in keys:
-        assert key[:n] == prefix, "key should start with prefix, {} / {}".format(prefix, key)
+        if key[:n] != prefix:
+            raise ValueError("key should start with prefix, {} / {}".format(prefix, key))
         suffix = key[n:].lstrip('/')
         local_filename = local.get_local_filename(local_path, suffix)
         local.ensure_dir_exists(local_filename)
