@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
+
 from boto3 import client as boto_client
 
-from shovel import local
+from shovel import exceptions, local
 
 DEFAULT_DELIMITER = '/'
 
@@ -43,6 +45,9 @@ def list_objects(bucket, root, *path, delimiter=DEFAULT_DELIMITER):
 
 
 def download_tree(bucket, prefix, local_path):
+    if os.path.exists(local_path):
+        raise exceptions.FileExists
+
     client = get_s3_client()
 
     n = len(prefix)
@@ -56,6 +61,8 @@ def download_tree(bucket, prefix, local_path):
         local_filename = local.get_local_filename(local_path, suffix)
         local.ensure_dir_exists(local_filename)
 
+        if os.path.exists(local_filename):
+            raise exceptions.FileExists
         client.download_file(bucket, key, local_filename)
 
 

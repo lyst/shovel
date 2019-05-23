@@ -24,4 +24,4 @@ def ensure_dir_exists(local_path):
     try:
         os.makedirs(os.path.dirname(local_path))
     except FileExistsError:
-        raise exceptions.FileExists
+        return
