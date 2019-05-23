@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import argparse
+import logging
 import sys
 from textwrap import dedent
 
@@ -47,7 +48,9 @@ class Shovel(object):
 
         version = shovel.bury(
             args.local_directory, args.project, args.dataset, args.version, args.force)
-        print('Created {}/{}/{}'.format(args.project, args.dataset, version))
+
+        logger = logging.getLogger(__name__)
+        logger.info('Created {}/{}/{}'.format(args.project, args.dataset, version))
 
     @staticmethod
     def dig():

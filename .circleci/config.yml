@@ -1,0 +1,96 @@
+version: 2
+jobs:
+  lint:
+    working_directory: ~/circleci-shovel
+    docker:
+      - image: circleci/python:3.7.2
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+          SHOVEL_DEFAULT_BUCKET: test_bucket
+          SHOVEL_DEFAULT_ROOT: test_root
+    steps:
+      - checkout
+
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
+
+      - restore_cache:
+          key: lint-v1
+
+      - run: sudo pip3.7 install flake8 safety bandit
+
+      - save_cache:
+          key: lint-v1
+          paths:
+            - ".venv"
+            - "/usr/local/bin"
+            - "/usr/local/lib/python3.7/site-packages"
+
+      - run:
+          name: Run Flake8
+          command: flake8 src tests
+
+      - run:
+          name: Run Safety Check
+          command: safety check
+
+      - run:
+          name: Run Bandit check
+          command: bandit --skip=B311 -r src/
+
+  unit-tests:
+    working_directory: ~/circleci-shovel
+    docker:
+      - image: circleci/python:3.7.2
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+          SHOVEL_DEFAULT_BUCKET: test_bucket
+          SHOVEL_DEFAULT_ROOT: test_root
+    steps:
+      - checkout
+
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
+
+      - restore_cache:
+          key: v1-{{ checksum "Pipfile.lock" }}
+
+      - run: sudo pip install pipenv
+      - run: pipenv clean
+      - run: pipenv sync --dev
+      - run: pipenv install -e .
+
+      - save_cache:
+          key: v1-{{ checksum "Pipfile.lock" }}
+          paths:
+            - ".venv"
+            - "/usr/local/bin"
+            - "/usr/local/lib/python3.7/site-packages"
+
+      - run:
+          name: Run tests
+          command: |
+            pipenv run pytest \
+              tests \
+              --cov=shovel \
+              --cov-report=term-missing \
+              --cov-report=xml \
+              --junitxml=test-results/pytest/results.xml
+
+      - store_test_results:
+          path: test-results
+
+      - store_artifacts:
+          path: test-results
+          destination: tr1
+
+      - run:
+          name: Upload Coverage
+          command: bash <(curl -s https://codecov.io/bash)
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - lint
+      - unit-tests

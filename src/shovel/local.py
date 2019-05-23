@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 
-from shovel import exceptions
-
 
 def list_local(local_path):
     n = len(local_path)
@@ -24,4 +22,4 @@ def ensure_dir_exists(local_path):
     try:
         os.makedirs(os.path.dirname(local_path))
     except FileExistsError:
-        raise exceptions.FileExists
+        return
